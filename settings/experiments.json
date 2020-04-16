@@ -46,13 +46,7 @@
         "normalization": {
             "enable": true,
             "type": "progressive",
-            "epoch": 100,
-            "mesh": {
-                "enable": true,
-                "epoch": 200,
-                "method": "edge",
-                "depth": 2
-            }
+            "epoch": 100
         }
     },
 

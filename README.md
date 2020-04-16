@@ -40,14 +40,12 @@ export CUDA_HOME=... # e.g. /var/lib/cuda-10.0/
   - *arch* -> aae | vae
   - *target_network_input:normalization:type* -> progressive
   - *target_network_input:normalization:epoch* -> epoch for which the progressive normalization, of the points from uniform distribution, ends
-  - *target_network_input:normalization:mesh:epoch* -> epoch for which starts the generation of the points from *sphere* distribution
-  - *target_network_input:normalization:mesh:method* -> hybrid | hybrid2 | hybrid3 | midpoint | midpoint2 | centroid | edge
   - *reconstruction_loss* -> chamfer | earth_mover
   - *dataset* -> shapenet
 
 
 ## Target Network input
-![](docs/tni.png)
+![uniform_input](docs/tni_uniform.png)
 #### Uniform distribution:
 3D points are sampled from uniform distribution. 
 
@@ -64,43 +62,11 @@ Exemplary config:
     "normalization": {
         "enable": true,
         "type": "progressive",
-        "epoch": 100,
-        "mesh": {
-            "enable": false,
-            ...
-        }
+        "epoch": 100
     }
 }
-For epochs: [1, 100] target network input points are normalized progressively
+For epochs: [1, 100] target network input is normalized progressively
 For epochs: [100, inf] target network input is sampled from a uniform unit 3D ball
-``` 
-
-#### Sphere distribution:
-3D points are sampled uniformly from a triangulation on unit 3D sphere (leverage mesh).
-
-**Requires** enabled normalization and `target_network_input:normalization:mesh:epoch` > `target_network_input:normalization:epoch`
-
-As a result, for epochs >= `target_network_input:normalization:mesh:epoch`, target network input is sampled from a triangulation on unit 3D sphere
-
-Exemplary config:
-```
-"target_network_input": {
-    "constant": false,
-    "normalization": {
-        "enable": true,
-        "type": "progressive",
-        "epoch": 100,
-        "mesh": {
-            "enable": true,
-            "epoch": 200,
-            "method": "edge",
-            "depth": 2
-        }
-    }
-}
-For epochs: [1, 100] target network input points are normalized progressively
-For epochs: [100, 199] target network input is sampled from a uniform unit 3D ball
-For epochs: [200, inf] target network input is sampled from the triangulation on unit 3D sphere
 ``` 
 
 
@@ -126,6 +92,17 @@ Model weights are loaded from path:
   - ${weights_path} if specified
   - otherwise: ${results_root}/${arch}/training/.../weights (make sure that `target_network_input` and `classes` are the
    same in the `hyperparams.json`/`experiments.json`)
+   
+###### Sphere distribution:
+![tni_triangulation](docs/tni_triangulation.png)
+
+The following experiments provide input of the target network as samples from a triangulation on a unit 3D sphere: 
+- `sphere_triangles` 
+- `sphere_triangles_interpolation` 
+
+3D points are sampled uniformly from the triangulation on a unit 3D sphere.
+
+Available methods: `hybrid | hybrid2 | hybrid3 | midpoint | midpoint2 | centroid | edge`
 
 
 ### Compute metrics

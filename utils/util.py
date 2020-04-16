@@ -96,13 +96,6 @@ def get_distribution_dir(config):
 
         if normalization_type == 'progressive':
             norm_max_epoch = config['target_network_input']['normalization']['epoch']
-            mesh_start_epoch = config['target_network_input']['normalization']['mesh']['epoch']
-            enable_mesh = config['target_network_input']['normalization']['mesh']['enable']
-
-            mesh_str = '_mesh_from_epoch_%d' % max(mesh_start_epoch, norm_max_epoch + 1) if \
-                enable_mesh else ''
-            normed_str = 'normed_progressive_to_epoch_%d%s' % (norm_max_epoch, mesh_str)
-        else:
-            normed_str = 'normed_instant'
+            normed_str = 'normed_progressive_to_epoch_%d' % norm_max_epoch
 
     return '%s%s' % ('uniform', '_' + normed_str if normed_str else '')
