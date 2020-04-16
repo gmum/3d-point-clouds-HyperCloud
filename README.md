@@ -79,14 +79,14 @@ For epochs: [100, inf] target network input is sampled from a uniform unit 3D ba
 `python experiments/train_[aae|vae].py --config settings/hyperparams.json`
 
 Results will be saved in the directory: 
-`${results_root}/[aae|vae]/training/${target_network_input}/${dataset}/${classes}`
+`${results_root}/[aae|vae]/training/uniform*/${dataset}/${classes}`
 
 
 ### Experiments
 `python experiments/experiments.py --config settings/experiments.json`
 
 Results will be saved in the directory: 
-`${results_root}/[aae|vae]/experiments/${target_network_input}/${dataset}/${classes}`
+`${results_root}/[aae|vae]/experiments/uniform*/${dataset}/${classes}`
 
 Model weights are loaded from path:
   - ${weights_path} if specified
