@@ -10,7 +10,7 @@ import torch
 from torch.utils.data import DataLoader
 from models import aae
 
-from utils.points import generate_points_from_uniform_distribution
+from utils.points import generate_points
 from utils.metrics import jsd_between_point_cloud_sets
 from utils.util import set_seed, cuda_setup, get_weights_dir, find_latest_epoch
 
@@ -58,9 +58,6 @@ def jsd(config, weights_path, device):
                              shuffle=False, num_workers=4,
                              drop_last=False, pin_memory=True)
 
-    normalize_points = config['target_network_input']['normalization']['enable']
-    generate_points = generate_points_from_uniform_distribution
-
     X, _ = next(iter(data_loader))
     X = X.to(device)
 
@@ -101,8 +98,8 @@ def jsd(config, weights_path, device):
                     for j, target_network_weights in enumerate(target_networks_weights):
                         target_network = aae.TargetNetwork(config, target_network_weights).to(device)
 
-                        target_network_input = generate_points(size=(X_rec.shape[2], X_rec.shape[1]),
-                                                               normalize=normalize_points)
+                        target_network_input = generate_points(config=config, epoch=epoch,
+                                                               size=(X_rec.shape[2], X_rec.shape[1]))
 
                         X_rec[j] = torch.transpose(target_network(target_network_input.to(device)), 0, 1)
 
@@ -159,9 +156,6 @@ def minimum_matching_distance(config, weights_path, device):
                              shuffle=False, num_workers=4,
                              drop_last=False, pin_memory=True)
 
-    normalize_points = config['target_network_input']['normalization']['enable']
-    generate_points = generate_points_from_uniform_distribution
-
     encoder.load_state_dict(torch.load(join(weights_path, f'{epoch:05}_E.pth')))
     hyper_network.load_state_dict(torch.load(join(weights_path, f'{epoch:05}_G.pth')))
 
@@ -184,7 +178,7 @@ def minimum_matching_distance(config, weights_path, device):
             for j, target_network_weights in enumerate(target_networks_weights):
                 target_network = aae.TargetNetwork(config, target_network_weights).to(device)
 
-                target_network_input = generate_points(size=(X.shape[2], X.shape[1]), normalize=normalize_points)
+                target_network_input = generate_points(config=config, epoch=epoch, size=(X.shape[2], X.shape[1]))
 
                 X_rec[j] = torch.transpose(target_network(target_network_input.to(device)), 0, 1)
 
@@ -235,9 +229,6 @@ def all_metrics(config, weights_path, device, epoch, jsd_value):
                              shuffle=False, num_workers=4,
                              drop_last=False, pin_memory=True)
 
-    normalize_points = config['target_network_input']['normalization']['enable']
-    generate_points = generate_points_from_uniform_distribution
-
     hyper_network.load_state_dict(torch.load(join(weights_path, f'{epoch:05}_G.pth')))
 
     result = {}
@@ -266,7 +257,7 @@ def all_metrics(config, weights_path, device, epoch, jsd_value):
             for j, target_network_weights in enumerate(target_networks_weights):
                 target_network = aae.TargetNetwork(config, target_network_weights).to(device)
 
-                target_network_input = generate_points(size=(X.shape[2], X.shape[1]), normalize=normalize_points)
+                target_network_input = generate_points(config=config, epoch=epoch, size=(X.shape[2], X.shape[1]))
 
                 X_rec[j] = torch.transpose(target_network(target_network_input.to(device)), 0, 1)
 
