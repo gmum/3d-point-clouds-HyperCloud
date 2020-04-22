@@ -4,7 +4,7 @@ Authors: Przemysław Spurek, Sebastian Winczowski, Jacek Tabor, Maciej Zamorski,
 
 ![Hyper Cloud](docs/hyper_cloud.png)
 
-## Code for ICML 2020 paper: [Hypernetwork approach to generating point clouds](https://arxiv.org/pdf/2003.00802.pdf)
+#### [Hypernetwork approach to generating point clouds](https://arxiv.org/pdf/2003.00802.pdf)
 
 #### Abstract
 In this work, we propose a novel method for generating 3D point clouds that leverage properties of hyper networks. 
