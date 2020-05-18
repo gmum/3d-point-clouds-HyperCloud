@@ -38,7 +38,7 @@
             "use_bias": true,
             "relu_slope": 0.2,
             "freeze_layers_learning": false,
-            "layer_out_channels": [16]
+            "layer_out_channels": [32, 64, 128, 64]
         }
     },
 

@@ -26,11 +26,11 @@ class HyperNetwork(nn.Module):
             nn.Linear(in_features=512, out_features=1024, bias=self.use_bias),
             nn.ReLU(inplace=True),
 
-            nn.Linear(in_features=1024, out_features=4096, bias=self.use_bias),
+            nn.Linear(in_features=1024, out_features=2048, bias=self.use_bias),
         )
 
         self.output = [
-            nn.Linear(4096, (target_network_out_ch[x - 1] + target_network_use_bias) * target_network_out_ch[x],
+            nn.Linear(2048, (target_network_out_ch[x - 1] + target_network_use_bias) * target_network_out_ch[x],
                       bias=True).to(device)
             for x in range(1, len(target_network_out_ch))
         ]
