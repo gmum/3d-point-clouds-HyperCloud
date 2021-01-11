@@ -199,26 +199,29 @@ def main(config):
         #
         # Save intermediate results
         #
-        X = X.cpu().numpy()
-        X_rec = X_rec.detach().cpu().numpy()
+        if epoch % config['save_samples_frequency'] == 0:
+            log.debug('Saving samples...')
 
-        for k in range(min(5, X_rec.shape[0])):
-            fig = plot_3d_point_cloud(X_rec[k][0], X_rec[k][1], X_rec[k][2], in_u_sphere=True, show=False,
-                                      title=str(epoch))
-            fig.savefig(join(results_dir, 'samples', f'{epoch}_{k}_reconstructed.png'))
-            plt.close(fig)
+            X = X.cpu().numpy()
+            X_rec = X_rec.detach().cpu().numpy()
 
-            fig = plot_3d_point_cloud(X[k][0], X[k][1], X[k][2], in_u_sphere=True, show=False)
-            fig.savefig(join(results_dir, 'samples', f'{epoch}_{k}_real.png'))
-            plt.close(fig)
+            for k in range(min(5, X_rec.shape[0])):
+                fig = plot_3d_point_cloud(X_rec[k][0], X_rec[k][1], X_rec[k][2], in_u_sphere=True, show=False,
+                                          title=str(epoch))
+                fig.savefig(join(results_dir, 'samples', f'{epoch}_{k}_reconstructed.png'))
+                plt.close(fig)
+
+                fig = plot_3d_point_cloud(X[k][0], X[k][1], X[k][2], in_u_sphere=True, show=False)
+                fig.savefig(join(results_dir, 'samples', f'{epoch}_{k}_real.png'))
+                plt.close(fig)
 
         if config['clean_weights_dir']:
             log.debug('Cleaning weights path: %s' % weights_path)
             shutil.rmtree(weights_path, ignore_errors=True)
             os.makedirs(weights_path, exist_ok=True)
 
-        if epoch % config['save_frequency'] == 0:
-            log.debug('Saving data...')
+        if epoch % config['save_weights_frequency'] == 0:
+            log.debug('Saving weights and losses...')
 
             torch.save(hyper_network.state_dict(), join(weights_path, f'{epoch:05}_G.pth'))
             torch.save(encoder.state_dict(), join(weights_path, f'{epoch:05}_E.pth'))

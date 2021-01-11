@@ -35,7 +35,8 @@
     "normal_std": 0.2,
 
     "seed": 2018,
-    "save_frequency": 1,
+    "save_weights_frequency": 20,
+    "save_samples_frequency": 20,
     "epsilon": 0.001,
 
     "target_network_input": {

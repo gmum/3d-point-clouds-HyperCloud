@@ -4,7 +4,16 @@ Authors: Przemysław Spurek, Sebastian Winczowski, Jacek Tabor, Maciej Zamorski,
 
 ![Hyper Cloud](docs/hyper_cloud.png)
 
-#### [Hypernetwork approach to generating point clouds](https://arxiv.org/pdf/2003.00802.pdf)
+| arXiv |
+| :---- |
+| [Hypernetwork approach to generating point clouds (abs)](https://arxiv.org/abs/2003.00802) |
+| [Hypernetwork approach to generating point clouds (pdf)](https://arxiv.org/pdf/2003.00802.pdf) |
+
+| PMLR |
+| :--- |
+| [Hypernetwork approach to generating point clouds (abs)](http://proceedings.mlr.press/v119/spurek20a.html) |
+| [Hypernetwork approach to generating point clouds (pdf)](http://proceedings.mlr.press/v119/spurek20a/spurek20a.pdf) |
+
 
 #### Abstract
 In this work, we propose a novel method for generating 3D point clouds that leverage properties of hyper networks. 
@@ -42,6 +51,13 @@ export CUDA_HOME=... # e.g. /var/lib/cuda-10.0/
   - *target_network_input:normalization:epoch* -> epoch for which the progressive normalization, of the points from uniform distribution, ends
   - *reconstruction_loss* -> chamfer | earth_mover
   - *dataset* -> shapenet
+
+
+#### Frequency of saving training data (settings/hyperparams.json)
+```
+"save_weights_frequency": int (> 0) -> save model's weights every x epochs
+"save_samples_frequency": int (> 0) -> save intermediate reconstructions every x epochs
+```
 
 
 ## Target Network input
