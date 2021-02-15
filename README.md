@@ -9,7 +9,7 @@ Authors: Przemysław Spurek, Sebastian Winczowski, Jacek Tabor, Maciej Zamorski,
 | [Hypernetwork approach to generating point clouds (abs)](https://arxiv.org/abs/2003.00802) |
 | [Hypernetwork approach to generating point clouds (pdf)](https://arxiv.org/pdf/2003.00802.pdf) |
 
-| PMLR |
+| ICML 2020 |
 | :--- |
 | [Hypernetwork approach to generating point clouds (abs)](http://proceedings.mlr.press/v119/spurek20a.html) |
 | [Hypernetwork approach to generating point clouds (pdf)](http://proceedings.mlr.press/v119/spurek20a/spurek20a.pdf) |
