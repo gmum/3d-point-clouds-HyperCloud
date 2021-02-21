@@ -8,6 +8,7 @@ import random
 import numpy as np
 
 import torch
+from plyfile import PlyData
 
 
 def setup_logging(log_dir):
@@ -99,3 +100,28 @@ def get_distribution_dir(config):
             normed_str = 'normed_progressive_to_epoch_%d' % norm_max_epoch
 
     return '%s%s' % ('uniform', '_' + normed_str if normed_str else '')
+
+
+def load_ply(file_name: str,
+             with_faces: bool = False,
+             with_color: bool = False) -> np.ndarray:
+    ply_data = PlyData.read(file_name)
+    points = ply_data['vertex']
+    points = np.vstack([points['x'], points['y'], points['z']]).T
+    ret_val = [points]
+
+    if with_faces:
+        faces = np.vstack(ply_data['face']['vertex_indices'])
+        ret_val.append(faces)
+
+    if with_color:
+        r = np.vstack(ply_data['vertex']['red'])
+        g = np.vstack(ply_data['vertex']['green'])
+        b = np.vstack(ply_data['vertex']['blue'])
+        color = np.hstack((r, g, b))
+        ret_val.append(color)
+
+    if len(ret_val) == 1:  # Unwrap the list
+        ret_val = ret_val[0]
+
+    return ret_val
