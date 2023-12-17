@@ -143,3 +143,5 @@ piano,     pillow,     pistol,     pot,       printer,    remote_control,
 rifle,     rocket,     skateboard, sofa,      stove,      vessel,   
 washer,    boat,       cellphone
 ```
+### License
+This implementation is licensed under the MIT License
